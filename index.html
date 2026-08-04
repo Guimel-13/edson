@@ -15,13 +15,18 @@
     <!-- PANTALLA 1: Escáner de Huella -->
     <section id="screen1" class="screen active">
         <h1 class="title-cursive">Para ti, mi amor</h1>
-        <div class="fingerprint-container">
+        
+        <div class="fingerprint-container" id="fingerprintArea">
             <svg class="progress-ring" width="150" height="150">
                 <circle class="progress-ring__circle" stroke="#c46c71" stroke-width="6" fill="transparent" r="68" cx="75" cy="75"/>
             </svg>
             <i class="fa-solid fa-fingerprint fingerprint-icon" id="fingerprintBtn"></i>
         </div>
-        <p class="scan-text">Mantén presionado para entrar...</p>
+        
+        <p class="scan-text" id="scanText">Mantén presionado para escanear...</p>
+
+        <!-- NUEVO BOTÓN: Oculto al inicio -->
+        <button id="btnIngresar" class="btn-next hidden" onclick="ingresar()">Ingresar <i class="fa-solid fa-heart"></i></button>
     </section>
 
     <!-- PANTALLA 2: Total de Días -->
@@ -75,7 +80,7 @@
     </section>
 
     <!-- AUDIO DE FONDO -->
-    <audio id="bgMusic" src="musica.mp3" preload="auto"></audio>
+    <audio id="bgMusic" src="musica.mpeg" preload="auto" loop></audio>
         
    
     <script src="script.js"></script>

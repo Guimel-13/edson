@@ -10,40 +10,56 @@ function nextScreen(currentId, nextId) {
     }, 50);
 }
 
-// --- LÓGICA DE LA HUELLA DACTILAR Y MÚSICA ---
+// --- LÓGICA DE LA HUELLA DACTILAR Y BOTÓN INGRESAR ---
 const fingerprintBtn = document.getElementById('fingerprintBtn');
-const fingerprintContainer = document.querySelector('.fingerprint-container');
-const bgMusic = document.getElementById('bgMusic'); // Seleccionamos el audio
+const fingerprintArea = document.getElementById('fingerprintArea');
+const scanText = document.getElementById('scanText');
+const btnIngresar = document.getElementById('btnIngresar');
+const bgMusic = document.getElementById('bgMusic'); 
+
 let holdTimer;
 const holdDuration = 2000; // 2 segundos manteniendo presionado
 
+// 1. Iniciar el escaneo
 function startScan(e) {
-    e.preventDefault(); // Previene comportamientos raros en móviles
-    fingerprintContainer.classList.add('scanning');
+    if (e.type === 'touchstart') {
+        e.preventDefault(); 
+    }
+    
+    fingerprintArea.classList.add('scanning');
     
     holdTimer = setTimeout(() => {
-        fingerprintContainer.classList.remove('scanning');
-        nextScreen(1, 2);
+        // Al completar los 2 segundos, ocultamos la huella y el texto
+        fingerprintArea.style.display = 'none';
+        scanText.style.display = 'none';
         
-        // Reproducir la música de fondo al desbloquear
-        bgMusic.play().catch(error => {
-            console.log("El navegador bloqueó el autoplay. Se requiere interacción del usuario.", error);
-        });
-        
+        // Mostramos el botón de ingresar
+        btnIngresar.classList.remove('hidden');
     }, holdDuration);
 }
 
+// 2. Detener el escaneo si suelta antes de tiempo
 function stopScan() {
     clearTimeout(holdTimer);
-    fingerprintContainer.classList.remove('scanning');
+    fingerprintArea.classList.remove('scanning');
 }
 
-// Eventos para PC (Mouse) y Móviles (Touch)
+// 3. El usuario hace clic en "Ingresar"
+function ingresar() {
+    // Reproducimos la música
+    bgMusic.play().catch(error => console.log("Error de audio:", error));
+    
+    // Pasamos a la Pantalla 2
+    nextScreen(1, 2);
+}
+
+// Eventos para PC
 fingerprintBtn.addEventListener('mousedown', startScan);
 fingerprintBtn.addEventListener('mouseup', stopScan);
 fingerprintBtn.addEventListener('mouseleave', stopScan);
 
-fingerprintBtn.addEventListener('touchstart', startScan);
+// Eventos para Móviles
+fingerprintBtn.addEventListener('touchstart', startScan, {passive: false});
 fingerprintBtn.addEventListener('touchend', stopScan);
 
 // --- LÓGICA DE FECHAS Y CONTADORES ---
