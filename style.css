@@ -1,9 +1,9 @@
 :root {
-    --bg-color: #121111; /* Fondo oscuro */
+    --bg-color: #121111;
     --card-bg: #1c1a1a;
-    --text-main: #daba94; /* Beige / Dorado */
+    --text-main: #daba94;
     --text-light: #a89f91;
-    --accent-color: #c46c71; /* Rojo suave */
+    --accent-color: #c46c71;
 }
 
 * {
@@ -32,10 +32,10 @@ body {
     color: #ffffff;
 }
 
-/* Pantallas y Transiciones */
+/* --- MANEJO DE PANTALLAS --- */
 .screen {
     width: 100%;
-    max-width: 450px; /* Tamaño móvil en PC */
+    max-width: 450px;
     min-height: 100vh;
     padding: 20px;
     display: flex;
@@ -46,12 +46,13 @@ body {
     transition: opacity 0.5s ease-in-out;
 }
 
-.screen.hidden {
-    display: none;
+.screen.hidden, 
+.hidden {
+    display: none !important;
     opacity: 0;
 }
 
-/* PANTALLA 1: Escáner */
+/* --- PANTALLA 1: HUELLA DACTILAR --- */
 .fingerprint-container {
     position: relative;
     width: 150px;
@@ -71,7 +72,9 @@ body {
     transition: color 0.3s;
 }
 
-.fingerprint-container:active .fingerprint-icon {
+/* Se ilumina al tocar o mientras escanea */
+.fingerprint-container:active .fingerprint-icon,
+.fingerprint-container.scanning .fingerprint-icon {
     color: var(--accent-color);
     text-shadow: 0 0 15px var(--accent-color);
 }
@@ -84,11 +87,12 @@ body {
 }
 
 .progress-ring__circle {
-    stroke-dasharray: 427; /* 2 * PI * 68 */
+    stroke-dasharray: 427; 
     stroke-dashoffset: 427;
-    transition: stroke-dashoffset 2s linear;
+    transition: stroke-dashoffset 2s linear; /* 2 segundos exactos, igual que el JS */
 }
 
+/* Al agregar la clase scanning, la línea roja se dibuja */
 .scanning .progress-ring__circle {
     stroke-dashoffset: 0;
 }
@@ -97,9 +101,30 @@ body {
     font-size: 0.9rem;
     color: var(--text-light);
     letter-spacing: 1px;
+    margin-bottom: 20px;
 }
 
-/* PANTALLAS 2 y 3: Tarjetas */
+/* --- BOTONES --- */
+.btn-next {
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 25px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.2s;
+    font-family: 'Poppins', sans-serif;
+    margin-top: 15px;
+}
+
+.btn-next:hover {
+    transform: scale(1.05);
+    background-color: #a35559;
+}
+
+/* --- TARJETAS (Pantallas 2 y 3) --- */
 .card {
     background-color: var(--card-bg);
     border-radius: 20px;
@@ -141,25 +166,18 @@ body {
     margin-bottom: 25px;
 }
 
-.btn-next {
-    background-color: var(--accent-color);
-    color: white;
-    border: none;
-    padding: 12px 30px;
-    border-radius: 25px;
-    font-size: 1rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: transform 0.2s, background-color 0.2s;
-    font-family: 'Poppins', sans-serif;
+/* Contadores Detallados (Pantalla 3) */
+.subtitle {
+    font-size: 0.9rem;
+    color: var(--text-light);
+    margin-bottom: 15px;
 }
 
-.btn-next:hover {
-    transform: scale(1.05);
-    background-color: #a35559;
+.juntos-desde {
+    font-size: 0.9rem;
+    margin-top: 10px;
 }
 
-/* PANTALLA 3: Contadores */
 .small-heart {
     font-size: 0.8rem;
     margin: 5px 0 15px 0;
@@ -198,7 +216,7 @@ body {
     margin-top: -15px;
 }
 
-/* PANTALLA 4: Galería */
+/* --- GALERÍA DE RECUERDOS (Pantalla 4) --- */
 .gallery-header {
     text-align: center;
     margin-bottom: 20px;
