@@ -21,26 +21,6 @@ function startScan(e) {
     e.preventDefault(); // Previene comportamientos raros en móviles
     fingerprintContainer.classList.add('scanning');
     
-    // TRUCO PARA MÓVILES: Reproducimos el audio con el primer toque, pero en silencio
-    bgMusic.volume = 0; 
-    bgMusic.play().catch(error => {
-        console.log("El navegador bloqueó el autoplay.", error);
-    });
-    
-    holdTimer = setTimeout(() => {
-        fingerprintContainer.classList.remove('scanning');
-        nextScreen(1, 2);
-        
-        // Al terminar los 2 segundos y desbloquear, subimos el volumen
-        bgMusic.volume = 1; 
-        
-    }, holdDuration);
-}
-
-function startScan(e) {
-    e.preventDefault(); // Previene comportamientos raros en móviles
-    fingerprintContainer.classList.add('scanning');
-    
     holdTimer = setTimeout(() => {
         fingerprintContainer.classList.remove('scanning');
         nextScreen(1, 2);
@@ -56,10 +36,6 @@ function startScan(e) {
 function stopScan() {
     clearTimeout(holdTimer);
     fingerprintContainer.classList.remove('scanning');
-    
-    // Si el usuario suelta el dedo antes de los 2 segundos, pausamos y reiniciamos
-    bgMusic.pause();
-    bgMusic.currentTime = 0;
 }
 
 // Eventos para PC (Mouse) y Móviles (Touch)
