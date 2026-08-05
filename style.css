@@ -169,7 +169,7 @@ body {
 
 /* --- BOTONES --- */
 .btn-next {
-    background-color: var(--accent-color);
+    background-color: var(--text-light);
     color: white;
     border: none;
     padding: clamp(10px, 3vw, 12px) clamp(20px, 6vw, 30px);
@@ -238,6 +238,8 @@ body {
     object-fit: cover;
     border-radius: 15px;
     margin-bottom: clamp(10px, 3vh, 20px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.5); /* Sombra para que la foto resalte */
+    border: 1px solid rgba(218, 186, 148, 0.15);
 }
 
 .heart-icon {
@@ -245,8 +247,13 @@ body {
 }
 
 #total-days {
-    font-size: clamp(1.8rem, 8vw, 2.5rem);
-    font-weight: 500;
+    font-size: clamp(2.8rem, 12vw, 3.8rem);
+    font-weight: 600;
+    background: linear-gradient(45deg, #daba94, #f9e5ce, #daba94);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0px 4px 10px rgba(0,0,0,0.4);
+    display: inline-block; 
 }
 
 .date-subtitle {
