@@ -139,7 +139,6 @@ for (let i = 1; i <= 38; i++) {
 availablePhotos.forEach(num => {
     // Escoge una frase al azar
     const randomQuote = loveQuotes[Math.floor(Math.random() * loveQuotes.length)];
-    
     const div = document.createElement('div');
     div.className = 'memory-item';
     
@@ -149,6 +148,57 @@ availablePhotos.forEach(num => {
         <div class="memory-overlay">${randomQuote}</div>
     `;
     gallery.appendChild(div);
+});
+
+
+// --- LÓGICA DEL VISOR DE IMÁGENES (MODAL) ---
+function openImageModal(src) {
+    const modal = document.getElementById("imageModal");
+    const modalImg = document.getElementById("modalImage");
+    modal.classList.remove("hidden");
+    modalImg.src = src; // Coloca la ruta de la foto clickeada
+}
+
+function closeImageModal() {
+    document.getElementById("imageModal").classList.add("hidden");
+}
+
+// --- LÓGICA DEL AÑO FANTASMA Y SCROLL ---
+const ghostYear = document.getElementById('ghostYear');
+let scrollTimeout;
+// Rango de años de relación (de 2019 a 2026)
+const years = [2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026];
+
+window.addEventListener('scroll', () => {
+    // Solo ejecutamos este efecto si estamos en la Pantalla 4
+    if (!document.getElementById('screen4').classList.contains('active')) return;
+
+    // Calcular qué porcentaje del documento se ha scrolleado
+    const scrollTop = window.scrollY || document.documentElement.scrollTop;
+    const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    
+    if (scrollHeight > 0) {
+        let scrollPercentage = scrollTop / scrollHeight;
+        
+        // Mapear el porcentaje al índice del arreglo de años
+        // Multiplicamos por el número de años para saber en cuál recae el scroll
+        let yearIndex = Math.floor(scrollPercentage * years.length);
+        
+        // Aseguramos no salir del límite del arreglo
+        if (yearIndex >= years.length) yearIndex = years.length - 1;
+
+        // Actualizar el texto del año
+        ghostYear.innerText = years[yearIndex];
+    }
+
+    // Hacemos visible el año con animación
+    ghostYear.classList.add('visible');
+
+    // Desaparecerlo suavemente al dejar de hacer scroll
+    clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(() => {
+        ghostYear.classList.remove('visible');
+    }, 700); // Se oculta tras 700 ms sin moverse
 });
 
 
@@ -178,3 +228,38 @@ function goBack(currentId, prevId) {
         bgMusic.currentTime = 0;
     }
 }
+
+
+// --- LÓGICA DE CORAZONES FLOTANTES GLOBALES ---
+const heartsContainer = document.getElementById('heartsContainer');
+
+function createGlobalHeart() {
+    // Creamos el elemento del icono de corazón (usando FontAwesome)
+    const heart = document.createElement('i');
+    heart.classList.add('fa-solid', 'fa-heart', 'floating-heart');
+    
+    // Posición horizontal aleatoria (0% a 100% del ancho de la pantalla)
+    heart.style.left = Math.random() * 100 + 'vw';
+    
+    // Duración aleatoria de la animación (entre 4s y 8s para que no vayan todos a la misma velocidad)
+    const duration = Math.random() * (8 - 4) + 4;
+    heart.style.animationDuration = `${duration}s`;
+    
+    // Tamaño aleatorio para dar un efecto de profundidad (algunos más lejos, otros más cerca)
+    const size = Math.random() * (1.2 - 0.7) + 0.7;
+    heart.style.transform = `scale(${size})`;
+    
+    // Agregamos el corazón a la pantalla
+    heartsContainer.appendChild(heart);
+    
+    // Lo eliminamos del código una vez que termina su animación para no saturar el celular
+    setTimeout(() => {
+        heart.remove();
+    }, duration * 1000);
+}
+
+// Genera un corazón nuevo cada 800 milisegundos (0.8 segundos)
+// Si quieres más corazones, baja este número (ej. 400). Si quieres menos, súbelo (ej. 1200).
+setInterval(createGlobalHeart, 800);
+
+

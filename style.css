@@ -338,15 +338,31 @@ body {
 
 .memory-item {
     position: relative;
-    border-radius: 10px;
+    border-radius: 12px;
     overflow: hidden;
     aspect-ratio: 4/5;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.memory-item:hover, 
+.memory-item:active {
+    transform: scale(1.03); /* Efecto de zoom a la tarjeta */
+    box-shadow: 0 8px 25px rgba(196, 108, 113, 0.5); /* Sombra roja iluminada */
 }
 
 .memory-item img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.memory-item:hover img, 
+.memory-item:active img {
+    transform: scale(1.1); /* Zoom interno de la foto */
 }
 
 .memory-overlay {
@@ -355,12 +371,93 @@ body {
     left: 0;
     width: 100%;
     padding: 20px 10px 10px;
-    background: linear-gradient(transparent, rgba(0,0,0,0.8));
+    background: linear-gradient(transparent, rgba(0,0,0,0.9));
     color: white;
     font-size: clamp(0.7rem, 2.5vw, 0.8rem);
     text-align: center;
     font-family: 'Playfair Display', serif;
     font-style: italic;
+    transition: padding-bottom 0.3s ease;
+    pointer-events: none; /* Deja que el clic pase a la imagen */
+}
+
+.memory-item:hover .memory-overlay, 
+.memory-item:active .memory-overlay {
+    padding-bottom: 25px; /* Sube el texto ligeramente */
+}
+
+
+/* --- VISOR DE IMÁGENES PANTALLA COMPLETA (MODAL) --- */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(18, 17, 17, 0.95);
+    backdrop-filter: blur(5px);
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+.modal.hidden {
+    display: none !important;
+    opacity: 0;
+}
+
+.modal-content {
+    max-width: 90%;
+    max-height: 85vh;
+    border-radius: 15px;
+    box-shadow: 0 0 30px rgba(196, 108, 113, 0.4);
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+    object-fit: contain;
+}
+
+.modal:not(.hidden) .modal-content {
+    transform: scale(1); /* Efecto pop-up */
+}
+
+.close-modal {
+    position: absolute;
+    top: clamp(20px, 4vh, 30px);
+    right: clamp(20px, 4vw, 30px);
+    color: #daba94;
+    font-size: 2.5rem;
+    cursor: pointer;
+    z-index: 101;
+    transition: color 0.3s;
+}
+
+.close-modal:hover {
+    color: #c46c71;
+}
+
+/* --- AÑO FANTASMA (Efecto de Scroll) --- */
+.ghost-year {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: clamp(6rem, 30vw, 12rem);
+    font-weight: 800;
+    color: rgba(255, 255, 255, 0.05); /* Súper transparente */
+    font-family: 'Poppins', sans-serif;
+    pointer-events: none; /* No estorba a los clics */
+    z-index: 0; /* Queda por detrás de las fotos */
+    opacity: 0;
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+/* Se activa cuando haces scroll */
+.ghost-year.visible {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.1); /* Crece sutilmente */
 }
 
 /* =========================================
@@ -437,4 +534,42 @@ body {
 
 .detailed-card .btn-next:hover {
     background-color: #734840;
+}
+
+
+
+/* =========================================
+   CORAZONES FLOTANTES GLOBALES
+   ========================================= */
+.floating-hearts-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Permite hacer clic a través de los corazones */
+    z-index: 5; /* Se colocan detrás de los botones importantes pero sobre el fondo */
+    overflow: hidden;
+}
+
+.floating-heart {
+    position: absolute;
+    bottom: -30px;
+    color: var(--accent-color); /* Usa el rojo suave de la paleta */
+    font-size: clamp(1rem, 3vw, 1.5rem);
+    opacity: 0.6;
+    animation: floatUp linear forwards;
+    filter: drop-shadow(0 0 5px rgba(196, 108, 113, 0.4));
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(0) scale(1) rotate(0deg);
+        opacity: 0.6;
+    }
+    100% {
+        /* Sube un poco más de la altura de la pantalla para que desaparezca bien */
+        transform: translateY(-110vh) scale(1.5) rotate(360deg);
+        opacity: 0;
+    }
 }

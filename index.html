@@ -81,8 +81,10 @@
 
     <!-- PANTALLA 4: Galería de Recuerdos -->
     <section id="screen4" class="screen hidden">
-
         <button class="btn-back" onclick="goBack(4, 3)"><i class="fa-solid fa-arrow-left"></i></button>
+        
+        <!-- AÑO FANTASMA PARA EL SCROLL -->
+        <div id="ghostYear" class="ghost-year">2019</div>
 
         <div class="gallery-header">
             <h2 class="title-cursive">Para el Amor <br> de mi Vida</h2>
@@ -90,9 +92,17 @@
             <i class="fa-solid fa-heart heart-icon"></i>
         </div>
         <div class="gallery-grid" id="gallery">
-            <!-- Contenido dinámico -->
+            <!-- Contenido dinámico generado por JS -->
         </div>
     </section>
+
+    <!-- MODAL PARA VER FOTOS EN GRANDE -->
+    <div id="imageModal" class="modal hidden">
+        <span class="close-modal" onclick="closeImageModal()"><i class="fa-solid fa-xmark"></i></span>
+        <img class="modal-content" id="modalImage">
+    </div>
+
+    <div id="heartsContainer" class="floating-hearts-container"></div>
 
     <!-- AUDIO DE FONDO -->
     <audio id="bgMusic" src="musica.mpeg" preload="auto" loop></audio>
