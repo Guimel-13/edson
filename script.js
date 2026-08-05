@@ -150,3 +150,31 @@ availablePhotos.forEach(num => {
     `;
     gallery.appendChild(div);
 });
+
+
+// --- LÓGICA DE VOLVER ATRÁS ---
+function goBack(currentId, prevId) {
+    // Ocultar pantalla actual
+    document.getElementById(`screen${currentId}`).classList.add('hidden');
+    document.getElementById(`screen${currentId}`).classList.remove('active');
+    
+    // Mostrar pantalla anterior
+    document.getElementById(`screen${prevId}`).classList.remove('hidden');
+    setTimeout(() => {
+        document.getElementById(`screen${prevId}`).classList.add('active');
+    }, 50);
+
+    // Si volvemos a la pantalla 1 (Escáner), reseteamos todo como al inicio
+    if (prevId === 1) {
+        document.getElementById('fingerprintArea').style.display = 'flex';
+        document.getElementById('scanText').style.display = 'block';
+        document.getElementById('scanText').innerText = "Mantén presionado para escanear...";
+        document.getElementById('scanText').classList.remove('scanning-text');
+        document.getElementById('btnIngresar').classList.add('hidden');
+        
+        // Pausamos la música y la regresamos al segundo 0
+        const bgMusic = document.getElementById('bgMusic');
+        bgMusic.pause();
+        bgMusic.currentTime = 0;
+    }
+}

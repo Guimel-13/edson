@@ -39,6 +39,7 @@ body {
 
 /* --- MANEJO DE PANTALLAS --- */
 .screen {
+    position: relative;
     width: 100%;
     max-width: 450px;
     min-height: 100vh;
@@ -184,6 +185,40 @@ body {
 .btn-next:hover {
     transform: scale(1.05);
     background-color: #a35559;
+}
+
+/* --- BOTÓN DE VOLVER ATRÁS --- */
+.btn-back {
+    position: absolute;
+    top: clamp(15px, 4vh, 25px);
+    left: clamp(15px, 4vw, 25px);
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-main);
+    border: none;
+    width: clamp(35px, 10vw, 45px);
+    height: clamp(35px, 10vw, 45px);
+    border-radius: 50%;
+    font-size: clamp(1rem, 4vw, 1.2rem);
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background 0.3s, transform 0.2s;
+    z-index: 10;
+}
+
+.btn-back:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+}
+
+/* Ajuste de color del botón de volver para la Pantalla 3 (Tema Claro) */
+#screen3 .btn-back {
+    color: #43382f;
+    background: rgba(0, 0, 0, 0.05);
+}
+#screen3 .btn-back:hover {
+    background: rgba(0, 0, 0, 0.1);
 }
 
 /* --- TARJETAS (Pantallas 2 y 3) --- */
