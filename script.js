@@ -142,9 +142,9 @@ availablePhotos.forEach(num => {
     const div = document.createElement('div');
     div.className = 'memory-item';
     
-    // Aseguramos que la extensión sea .jpeg como nos indicaste
+    // AQUÍ ESTÁ LA CORRECCIÓN: Agregamos el onclick a la imagen
     div.innerHTML = `
-        <img src="img/foto${num}.jpeg" alt="Recuerdo ${num}" onerror="this.src='https://via.placeholder.com/400x500/1c1a1a/daba94?text=Foto+${num}'">
+        <img src="img/foto${num}.jpeg" alt="Recuerdo ${num}" onclick="openImageModal(this.src)" onerror="this.src='https://via.placeholder.com/400x500/1c1a1a/daba94?text=Foto+${num}'">
         <div class="memory-overlay">${randomQuote}</div>
     `;
     gallery.appendChild(div);
