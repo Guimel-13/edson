@@ -17,15 +17,20 @@
         <h1 class="title-cursive">Para ti, mi amor</h1>
         
         <div class="fingerprint-container" id="fingerprintArea">
+            <!-- Brillo de fondo estético -->
+            <div class="glow-background"></div>
+            
             <svg class="progress-ring" width="150" height="150">
-                <circle class="progress-ring__circle" stroke="#c46c71" stroke-width="6" fill="transparent" r="68" cx="75" cy="75"/>
+                <circle class="progress-ring__circle" stroke="#ff1e56" stroke-width="4" fill="transparent" r="68" cx="75" cy="75"/>
             </svg>
             <i class="fa-solid fa-fingerprint fingerprint-icon" id="fingerprintBtn"></i>
+            
+            <!-- NUEVO: Línea de láser -->
+            <div class="scanner-line"></div>
         </div>
         
         <p class="scan-text" id="scanText">Mantén presionado para escanear...</p>
 
-        <!-- NUEVO BOTÓN: Oculto al inicio -->
         <button id="btnIngresar" class="btn-next hidden" onclick="ingresar()">Ingresar <i class="fa-solid fa-heart"></i></button>
     </section>
 

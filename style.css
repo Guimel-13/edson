@@ -3,7 +3,7 @@
     --card-bg: #1c1a1a;
     --text-main: #daba94;
     --text-light: #a89f91;
-    --accent-color: #c46c71;
+    --accent-color: #c46ff1e56c71;
 }
 
 * {
@@ -23,12 +23,17 @@ body {
     overflow-x: hidden;
 }
 
+#btnIngresar{
+    background-color: #ff1e56;
+}
+
+/* Usamos clamp(min, ideal, max) para que la letra escale automáticamente */
 .title-cursive {
     font-family: 'Playfair Display', serif;
     font-style: italic;
-    font-size: 2.2rem;
+    font-size: clamp(1.8rem, 6vw, 2.2rem); 
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: clamp(10px, 3vh, 20px);
     color: #ffffff;
 }
 
@@ -37,7 +42,7 @@ body {
     width: 100%;
     max-width: 450px;
     min-height: 100vh;
-    padding: 20px;
+    padding: clamp(10px, 4vw, 20px);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -55,28 +60,70 @@ body {
 /* --- PANTALLA 1: HUELLA DACTILAR --- */
 .fingerprint-container {
     position: relative;
-    width: 150px;
-    height: 150px;
+    width: clamp(120px, 40vw, 150px);
+    height: clamp(120px, 40vw, 150px);
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 40px 0;
+    margin: clamp(20px, 6vh, 40px) 0;
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
 }
 
-.fingerprint-icon {
-    font-size: 4rem;
-    color: #4a4a4a;
-    z-index: 2;
-    transition: color 0.3s;
+/* Brillo rojo difuminado de fondo */
+.glow-background {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(255,30,86,0.15) 0%, rgba(0,0,0,0) 70%);
+    border-radius: 50%;
+    z-index: 1;
 }
 
-/* Se ilumina al tocar o mientras escanea */
+.fingerprint-icon {
+    font-size: clamp(4rem, 12vw, 5rem);
+    color: #4a4a4a;
+    z-index: 2;
+    transition: all 0.3s ease;
+}
+
+
 .fingerprint-container:active .fingerprint-icon,
 .fingerprint-container.scanning .fingerprint-icon {
     color: var(--accent-color);
     text-shadow: 0 0 15px var(--accent-color);
+}
+
+/* El icono se pinta de rojo y brilla mientras escanea */
+.scanning .fingerprint-icon {
+    color: #ff1e56;
+    text-shadow: 0 0 15px rgba(255, 30, 86, 0.8);
+}
+
+/* Línea Láser Oculta por defecto */
+.scanner-line {
+    position: absolute;
+    top: 15%;
+    left: 15%;
+    width: 70%;
+    height: 3px;
+    background: #ff1e56;
+    box-shadow: 0 0 15px 5px rgba(255, 30, 86, 0.6);
+    z-index: 3;
+    border-radius: 50%;
+    opacity: 0;
+}
+
+/* Al escanear, la línea aparece y se mueve */
+.scanning .scanner-line {
+    opacity: 1;
+    animation: scanMove 2s ease-in-out forwards;
+}
+
+@keyframes scanMove {
+    0% { top: 15%; }
+    50% { top: 85%; }
+    100% { top: 15%; }
 }
 
 .progress-ring {
@@ -84,21 +131,36 @@ body {
     top: 0;
     left: 0;
     transform: rotate(-90deg);
+    width: 100%;
+    height: 100%;
 }
 
 .progress-ring__circle {
     stroke-dasharray: 427; 
     stroke-dashoffset: 427;
-    transition: stroke-dashoffset 2s linear; /* 2 segundos exactos, igual que el JS */
+    /* Reducimos el grosor y le damos un brillo */
+    stroke-width: 3;
+    filter: drop-shadow(0 0 5px rgba(255,30,86,0.8));
+    transition: stroke-dashoffset 2s linear; 
 }
-
-/* Al agregar la clase scanning, la línea roja se dibuja */
 .scanning .progress-ring__circle {
     stroke-dashoffset: 0;
 }
 
+/* Efecto de texto parpadeante al escanear */
+.scan-text.scanning-text {
+    color: #ff1e56;
+    text-shadow: 0 0 8px rgba(255, 30, 86, 0.5);
+    animation: pulseText 1s infinite alternate;
+}
+
+@keyframes pulseText {
+    from { opacity: 0.6; }
+    to { opacity: 1; }
+}
+
 .scan-text {
-    font-size: 0.9rem;
+    font-size: clamp(0.75rem, 3vw, 0.9rem);
     color: var(--text-light);
     letter-spacing: 1px;
     margin-bottom: 20px;
@@ -109,14 +171,14 @@ body {
     background-color: var(--accent-color);
     color: white;
     border: none;
-    padding: 12px 30px;
+    padding: clamp(10px, 3vw, 12px) clamp(20px, 6vw, 30px);
     border-radius: 25px;
-    font-size: 1rem;
+    font-size: clamp(0.9rem, 3.5vw, 1rem);
     font-weight: 500;
     cursor: pointer;
     transition: transform 0.2s, background-color 0.2s;
     font-family: 'Poppins', sans-serif;
-    margin-top: 15px;
+    margin-top: clamp(10px, 3vh, 15px);
 }
 
 .btn-next:hover {
@@ -128,7 +190,7 @@ body {
 .card {
     background-color: var(--card-bg);
     border-radius: 20px;
-    padding: 20px;
+    padding: clamp(15px, 5vw, 20px);
     width: 100%;
     text-align: center;
     box-shadow: 0 10px 30px rgba(0,0,0,0.5);
@@ -136,10 +198,11 @@ body {
 
 .main-photo {
     width: 100%;
-    height: 350px;
+    /* Altura dinámica: se ajusta al alto de la pantalla (vh) sin pasarse de los límites */
+    height: clamp(200px, 35vh, 350px);
     object-fit: cover;
     border-radius: 15px;
-    margin-bottom: 20px;
+    margin-bottom: clamp(10px, 3vh, 20px);
 }
 
 .heart-icon {
@@ -147,40 +210,40 @@ body {
 }
 
 #total-days {
-    font-size: 2.5rem;
+    font-size: clamp(1.8rem, 8vw, 2.5rem);
     font-weight: 500;
 }
 
 .date-subtitle {
-    font-size: 0.8rem;
+    font-size: clamp(0.7rem, 2.5vw, 0.8rem);
     color: var(--text-light);
-    margin: 15px 0;
+    margin: clamp(10px, 2vh, 15px) 0;
     text-transform: uppercase;
     letter-spacing: 1px;
 }
 
 .quote {
     font-family: 'Playfair Display', serif;
-    font-size: 1.1rem;
+    font-size: clamp(0.95rem, 4vw, 1.1rem);
     line-height: 1.5;
-    margin-bottom: 25px;
+    margin-bottom: clamp(15px, 4vh, 25px);
 }
 
 /* Contadores Detallados (Pantalla 3) */
 .subtitle {
-    font-size: 0.9rem;
+    font-size: clamp(0.8rem, 3.5vw, 0.95rem);
     color: var(--text-light);
-    margin-bottom: 15px;
+    margin-bottom: clamp(10px, 2vh, 15px);
 }
 
 .juntos-desde {
-    font-size: 0.9rem;
-    margin-top: 10px;
+    font-size: clamp(0.8rem, 3vw, 0.9rem);
+    margin-top: clamp(5px, 2vh, 10px);
 }
 
 .small-heart {
-    font-size: 0.8rem;
-    margin: 5px 0 15px 0;
+    font-size: clamp(0.7rem, 2.5vw, 0.8rem);
+    margin: 5px 0 10px 0;
 }
 
 .counter-grid {
@@ -188,8 +251,8 @@ body {
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    gap: 10px;
-    margin-bottom: 30px;
+    gap: clamp(5px, 2vw, 10px);
+    margin-bottom: clamp(15px, 4vh, 30px);
 }
 
 .time-box {
@@ -199,19 +262,19 @@ body {
 }
 
 .time-box span {
-    font-size: 1.5rem;
+    font-size: clamp(1.1rem, 5vw, 1.8rem);
     font-weight: 500;
 }
 
 .time-box label {
-    font-size: 0.6rem;
+    font-size: clamp(0.5rem, 2vw, 0.6rem);
     color: var(--text-light);
     text-transform: uppercase;
     letter-spacing: 1px;
 }
 
 .time-separator {
-    font-size: 1.5rem;
+    font-size: clamp(1.2rem, 5vw, 1.8rem);
     color: var(--accent-color);
     margin-top: -15px;
 }
@@ -224,8 +287,9 @@ body {
 
 .gallery-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
+    /* Grid dinámico que se adapta si la pantalla es extremadamente pequeña */
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: clamp(10px, 3vw, 15px);
     width: 100%;
     padding-bottom: 40px;
 }
@@ -251,8 +315,84 @@ body {
     padding: 20px 10px 10px;
     background: linear-gradient(transparent, rgba(0,0,0,0.8));
     color: white;
-    font-size: 0.8rem;
+    font-size: clamp(0.7rem, 2.5vw, 0.8rem);
     text-align: center;
     font-family: 'Playfair Display', serif;
     font-style: italic;
+}
+
+/* =========================================
+   ESTILOS ESPECÍFICOS: PANTALLA 3 (TEMA CLARO)
+   ========================================= */
+
+#screen3 {
+    background-color: #f4e8d9; 
+    padding: 0; 
+}
+
+.detailed-card {
+    background-color: transparent;
+    box-shadow: none;
+    color: #43382f; 
+    padding: clamp(20px, 5vh, 30px) clamp(15px, 4vw, 20px);
+    /* Cambiado de height: 100vh a min-height para evitar que los elementos se encimen en móviles pequeños */
+    min-height: 100vh;
+    height: auto; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.detailed-card .title-cursive {
+    color: #43382f; 
+    font-size: clamp(1.8rem, 7vw, 2.5rem);
+    margin-bottom: 5px;
+}
+
+.detailed-card .subtitle {
+    color: #6a5a4b;
+    font-size: clamp(0.8rem, 3.5vw, 0.95rem);
+    margin-bottom: clamp(10px, 2vh, 20px);
+}
+
+.detailed-card .main-photo {
+    border-radius: 10px;
+    /* Reducimos la altura dinámica para que deje espacio a los contadores en móviles */
+    height: clamp(220px, 40vh, 480px); 
+    margin-bottom: clamp(5px, 1.5vh, 10px);
+}
+
+.detailed-card .juntos-desde {
+    color: #6a5a4b;
+    font-size: clamp(0.8rem, 3vw, 0.9rem);
+    margin-top: clamp(10px, 2vh, 15px);
+}
+
+.detailed-card .time-box span {
+    color: #43382f;
+}
+
+.detailed-card .time-box label {
+    color: #6a5a4b;
+    font-weight: 600;
+}
+
+.detailed-card .time-separator {
+    color: #c94444; 
+}
+
+.detailed-card .heart-icon, 
+.detailed-card .small-heart {
+    color: #df3636; 
+}
+
+.detailed-card .btn-next {
+    background-color: #8c5b52; 
+    color: #f4e8d9; 
+    margin-top: clamp(15px, 4vh, 25px);
+    padding: clamp(10px, 3vw, 12px) clamp(30px, 8vw, 40px);
+}
+
+.detailed-card .btn-next:hover {
+    background-color: #734840;
 }

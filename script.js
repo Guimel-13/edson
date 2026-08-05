@@ -28,12 +28,13 @@ function startScan(e) {
     
     fingerprintArea.classList.add('scanning');
     
+    // NUEVO: Cambiamos el texto y le agregamos la clase de animación
+    scanText.innerText = "Escaneando...";
+    scanText.classList.add('scanning-text');
+    
     holdTimer = setTimeout(() => {
-        // Al completar los 2 segundos, ocultamos la huella y el texto
         fingerprintArea.style.display = 'none';
         scanText.style.display = 'none';
-        
-        // Mostramos el botón de ingresar
         btnIngresar.classList.remove('hidden');
     }, holdDuration);
 }
@@ -42,6 +43,10 @@ function startScan(e) {
 function stopScan() {
     clearTimeout(holdTimer);
     fingerprintArea.classList.remove('scanning');
+    
+    // NUEVO: Revertimos el texto si suelta el dedo antes de los 2 segundos
+    scanText.innerText = "Mantén presionado para escanear...";
+    scanText.classList.remove('scanning-text');
 }
 
 // 3. El usuario hace clic en "Ingresar"
